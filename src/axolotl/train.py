@@ -25,8 +25,8 @@ from axolotl.contribs.lgpl.unsloth import (  # pylint: disable = no-name-in-modu
 )
 from axolotl.core.trainer_builder import HFCausalTrainerBuilder, HFRLTrainerBuilder
 from axolotl.logging_config import configure_logging
-from axolotl.telemetry import TelemetryManager
 from axolotl.telemetry.errors import send_errors
+from axolotl.telemetry.manager import TelemetryManager
 from axolotl.utils.dict import DictDefault
 from axolotl.utils.freeze import freeze_layers_except
 from axolotl.utils.models import load_model, load_processor, load_tokenizer
