@@ -26,7 +26,7 @@ from axolotl.contribs.lgpl.unsloth import (  # pylint: disable = no-name-in-modu
 from axolotl.core.trainer_builder import HFCausalTrainerBuilder, HFRLTrainerBuilder
 from axolotl.logging_config import configure_logging
 from axolotl.telemetry import TelemetryManager
-from axolotl.telemetry.manager import track_errors
+from axolotl.telemetry.errors import send_errors
 from axolotl.utils.dict import DictDefault
 from axolotl.utils.freeze import freeze_layers_except
 from axolotl.utils.models import load_model, load_processor, load_tokenizer
@@ -462,7 +462,7 @@ def setup_model_and_trainer(
     )
 
 
-@track_errors
+@send_errors
 def train(
     cfg: DictDefault, dataset_meta: TrainDatasetMeta
 ) -> tuple[PeftModel | PreTrainedModel, PreTrainedTokenizer]:
@@ -484,11 +484,11 @@ def train(
         peft_config,
     ) = setup_model_and_trainer(cfg, dataset_meta)
 
-    TELEMETRY_MANAGER.track_event(
+    TELEMETRY_MANAGER.send_event(
         event_type="model-load", properties=model.config.to_dict()
     )
     if peft_config:
-        TELEMETRY_MANAGER.track_event(
+        TELEMETRY_MANAGER.send_event(
             event_type="peft-config-load", properties=peft_config.to_dict()
         )
 
@@ -514,9 +514,9 @@ def train(
     setup_model_card(cfg)
 
     # Execute the training
-    TELEMETRY_MANAGER.track_event(event_type="train-start")
+    TELEMETRY_MANAGER.send_event(event_type="train-start")
     execute_training(cfg, trainer, resume_from_checkpoint)
-    TELEMETRY_MANAGER.track_event(event_type="train-end")
+    TELEMETRY_MANAGER.send_event(event_type="train-end")
 
     # Save the trained model
     save_trained_model(cfg, trainer, model, safe_serialization)
