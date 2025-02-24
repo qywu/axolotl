@@ -59,7 +59,7 @@ def setup_model_and_tokenizer(
     """
     # Load tokenizer
     LOG.debug(
-        f"loading tokenizer... {cfg.tokenizer_cocnfig or cfg.base_model_config}",
+        f"loading tokenizer... {cfg.tokenizer_config or cfg.base_model_config}",
         main_process_only=True,
     )
     tokenizer = load_tokenizer(cfg)
@@ -514,9 +514,7 @@ def train(
     setup_model_card(cfg)
 
     # Execute the training
-    TELEMETRY_MANAGER.send_event(event_type="train-start")
     execute_training(cfg, trainer, resume_from_checkpoint)
-    TELEMETRY_MANAGER.send_event(event_type="train-end")
 
     # Save the trained model
     save_trained_model(cfg, trainer, model, safe_serialization)
