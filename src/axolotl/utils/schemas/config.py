@@ -271,6 +271,7 @@ class AxolotlInputConfig(
     torch_compile_mode: Literal["default", "reduce-overhead", "max-autotune"] | None = (
         None
     )
+    compile_optimizer: bool | None = None
 
     max_steps: int | None = None
     warmup_steps: int | None = None

@@ -143,6 +143,10 @@ class AxolotlTrainingMixins:
         default=None,
         metadata={"help": "absolute learning rate for the embedding layers."},
     )
+    compile_optimizer: Optional[bool] = field(
+        default=None,
+        metadata={"help": "Whether to compile the optimizer for faster training."},
+    )
     qlora: bool = field(
         default=False,
         metadata={"help": "whether this is a qlora training"},
