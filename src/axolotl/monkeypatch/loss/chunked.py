@@ -8,6 +8,7 @@ chunked ce loss
 # This source code is licensed under the BSD-style license found in
 # https://github.com/pytorch/torchtune/blob/main/LICENSE
 
+import os
 from typing import List, Optional
 
 import torch
@@ -79,8 +80,9 @@ class CEWithChunkedOutputLoss(torch.nn.Module):
 
 def _build_chunked_ce_loss_fn(num_output_chunks: int = 8, ignore_index: int = -100):
     loss_fn_ce = CEWithChunkedOutputLoss(num_output_chunks, ignore_index)
+    backend = os.environ.get("TORCH_COMPILE_BACKEND", "inductor")
     loss_fn_ce.compute_cross_entropy = torch.compile(
-        loss_fn_ce.compute_cross_entropy, backend="inductor"
+        loss_fn_ce.compute_cross_entropy, backend=backend
     )
     return loss_fn_ce
 
