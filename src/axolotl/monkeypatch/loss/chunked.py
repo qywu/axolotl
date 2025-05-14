@@ -2,6 +2,12 @@
 chunked ce loss
 """
 
+# Copyright (c) Meta Platforms, Inc. and affiliates.
+# All rights reserved.
+
+# This source code is licensed under the BSD-style license found in
+# https://github.com/pytorch/torchtune/blob/main/LICENSE
+
 from typing import List, Optional
 
 import torch
